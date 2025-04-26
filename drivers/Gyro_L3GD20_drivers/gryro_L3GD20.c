@@ -1,6 +1,4 @@
 /*
- * pwm_proba.c
- *
  *  Created on: Mar 2, 2025
  *      Author: grudz
  */
