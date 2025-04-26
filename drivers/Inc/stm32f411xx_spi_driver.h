@@ -22,6 +22,7 @@ typedef struct
 	uint8_t SPI_CPOL;				/*!<  >*/
 	uint8_t SPI_CPHA;				/*!<  >*/
 	uint8_t SPI_SSM;				/*!<  >*/
+	uint8_t SPI_LSBFIRST;			/*!< possible values from @ >*/
 } SPI_Config_t;
 
 /*
@@ -41,6 +42,12 @@ typedef struct
  *																					  *
  **************************************************************************************/
 /*
+ * Generic macros
+ */
+#define FLAG_SET			SET
+#define FLAG_RESET			RESET
+
+/*
  *  @SPI_DeviceMode
  *  Possible device modes for SPI communication
  *  (bit 2 (MSTR) of the CR1 reg)
@@ -59,6 +66,7 @@ typedef struct
 
 /*
  *  @SPI_SclkSpeed
+ *  BR reg
  */
 #define SPI_SCLK_SPEED_DIV2		0
 #define SPI_SCLK_SPEED_DIV4		1
@@ -92,6 +100,11 @@ typedef struct
 #define SPI_SSM_EN		1	//	(software slave menagement enabled)
 #define SPI_SSM_DI		0	//	(software slave menagement disabled) - default
 
+/*
+ * 	@SPI_LSBFIRST
+ */
+#define SPI_LSBFIRST_MSB	0	//  MSB transmitted first
+#define SPI_LSBFIRST_LSB	1	//	LSB transmitted first
 
 /*
  *  SPI related status flags definitions
@@ -105,6 +118,17 @@ typedef struct
 #define SPI_OVR_FLAG	( 1 << SPI_SR_OVR )
 #define SPI_BUSY_FLAG	( 1 << SPI_SR_BSY )
 #define SPI_FRE_FLAG	( 1 << SPI_SR_FRE )
+
+//SPI SR reg
+#define SPI_SR_RXNE			0
+#define SPI_SR_TXE			1
+#define SPI_SR_CHSIDE		2
+#define SPI_SR_UDR			3
+#define SPI_SR_CRC_ERR		4
+#define SPI_SR_MODF			5
+#define SPI_SR_OVR			6
+#define SPI_SR_BSY			7
+#define SPI_SR_FRE			8
 
 
 /**************************************************************************************
@@ -124,10 +148,14 @@ void SPI_Init(SPI_Handle_t *pSPIHandle);
 void SPI_DeInit(SPI_RegDef_t *pSPIx);
 
 /*
+ * Check the status of a given flag
+ */
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint32_t FlagName);
+/*
  *  Data Send and Recive
  */
-void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t Len);
-void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t Len);
+void SPI_SendData (SPI_RegDef_t *pSPIx, uint8_t* pTxBuff, uint32_t data_len);
+void SPI_ReceiveData (SPI_RegDef_t *pSPIx,  uint8_t* pRxBuff, uint32_t data_len);
 
 /*
  *  IRQ Configuration and ISR handling
