@@ -14,7 +14,7 @@ union SPI_CR1_t
 {
 	struct {
 		__vo uint32_t CPHA	: 1;	/*!< bit 0 - Clock phase  		 >*/
-		__vo uint32_t CPOA	: 1;	/*!< bit 1 - Clock polarity  	 >*/
+		__vo uint32_t CPOL	: 1;	/*!< bit 1 - Clock polarity  	 >*/
 		__vo uint32_t MSTR	: 1;	/*!< bit 2 - Master selection 	 >*/
 		__vo uint32_t BR	: 3;	/*!< bits 3-5 -Baud rate controL 	 >*/
 		__vo uint32_t SPE	: 1;	/*!< bit 6 - SPI Enable >*/

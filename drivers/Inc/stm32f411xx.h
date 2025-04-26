@@ -24,8 +24,6 @@
 #define GPIO_PIN_RESET		RESET
 #define HIGH				1
 #define LOW					0
-#define FLAG_SET			SET
-#define FLAG_RESET			RESET
 
 
 /************************************START:Processor Specific Details*********************************************/
@@ -172,7 +170,8 @@ typedef struct
 	__vo uint32_t ODR;			//GPIO port output data register		0x14
 	__vo uint32_t BSRR;			//GPIO port bit set/reset register		0x18
 	__vo uint32_t LCKR;			//GPIO port configuration lock register	0x1C
-	__vo uint32_t AFR[2];		//GPIO alternate function low/high register	( [0] = AFRL	0x20; [1] = AFRH 	0x24)
+	__vo uint32_t AFR[2];		/*GPIO alternate function low/high register
+								( [0] = AFRL	0x20; [1] = AFRH 	0x24) */
 } GPIO_RegDef_t;
 
 

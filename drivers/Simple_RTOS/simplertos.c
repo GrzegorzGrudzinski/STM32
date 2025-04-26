@@ -3,13 +3,11 @@
  *
  *  Created on: Feb 23, 2025
  *      Author: grudz
- *
- *      TODO naprawic obsluge bledow
  */
 
 #include <stdint.h>
 #include "simplertos.h"
-#include "../Inc/error_handling.h"
+#include "error_handling.h"
 
 /*
  * Max amount of possible threads to run.
