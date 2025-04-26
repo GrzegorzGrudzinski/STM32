@@ -20,29 +20,29 @@ static uint16_t volatile adcValue;
 
 
 
-/**************************************************************************************
- *																					  *
- * 									FUNCTIONS										  *
- *																					  *
- **************************************************************************************/
+/********************************************************************
+ *																	*
+ * 						FUNCTIONS									*
+ *																	*
+ ********************************************************************/
 
 
 /******************************************************************
- * 						FUNCTION DESCRIPTION
- * @fn						- ADC_Init
+ * 				FUNCTION DESCRIPTION
+ * @fn			- ADC_Init
  *
- * @brief					- Initialize ADC
+ * @brief		- Initialize ADC
  *
- * @param[in]				- ADC_Handle_t struct - base settings of an ADC
+ * @param pADCx	- ADC_Handle_t struct - base settings of an ADC
  *
- * @return					- none
+ * @return		- none
  *
- * @Note					- Currently supports single and continous
- * 							  conversion modes of regular channels
+ * @Note		- Currently supports single and continous
+ * 				  conversion modes of regular channels
  *
  *	TODO finish other conversion modes
  ******************************************************************/
-void ADC_Init(ADC_Handle_t *pADCx){
+void ADC_Init(ADC_Handle_t *pADCx) {
 	//RCC clock enable
 	GPIO_PeriClockControl(pADCx->ADC_Config_t.pGPIOx, ENABLE);
 	ADC1_PCLK_EN();
@@ -164,22 +164,24 @@ void ADC_Init(ADC_Handle_t *pADCx){
 }
 
 
-/******************************************************************
- * 						FUNCTION DESCRIPTION
- * @fn						- ADC_Read
+/**********************************************************
+ * 			FUNCTION DESCRIPTION
+ * @fn			- ADC_Read
  *
- * @brief					- read the value from ADC channel
- * 							  and convert it to the given range
+ * @brief		- read the value from ADC channel
+ * 				  and convert it to the given range
  *
- * @param[in]				- ADC handle struct - basic settings of ADC
+ * @param pADCx	- ADC handle struct - basic settings of ADC
+ * @param range	-
  *
- * @return					- value converted to the given range
+ * @return		- value converted to the given range
  *
- * @Note					- Polling function (only in single conversion mode), might affect performance
+ * @Note		- Polling function (only in single conversion mode),
+ * 				  might affect performance
  *
  *	TODO	add injected mode
  *	TODO	add interrupt to single conv. mode
- ******************************************************************/
+ ***********************************************************/
 uint16_t ADC_Read(ADC_Handle_t *pADCx, uint8_t range) {
 	switch (pADCx->ADC_Config_t.ADC_Mode) {
 	case ADC_MODE_SINGLE_CONV:
@@ -202,15 +204,15 @@ uint16_t ADC_Read(ADC_Handle_t *pADCx, uint8_t range) {
 
 /******************************************************************
  * 						FUNCTION DESCRIPTION
- * @fn						-
+ * @fn			- ADC_IRQHandler
  *
- * @brief					-
+ * @brief		-
  *
- * @param[in]				-
+ * @param		-
  *
- * @return					-
+ * @return		-
  *
- * @Note					-
+ * @Note		-
  *
  ******************************************************************/
 void ADC_IRQHandler(void) {

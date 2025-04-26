@@ -13,15 +13,15 @@
 
 /******************************************************************
  * 						FUNCTION DESCRIPTION
- * @fn						- Sys_Reset
+ * @fn				- Sys_Reset
  *
- * @brief					- Trigger the software reset
+ * @brief			- Trigger the software reset
  *
- * @param[in]				- none
+ * @param[in]		- none
  *
- * @return					- none
+ * @return			- none
  *
- * @Note					- none
+ * @Note			- none
  *
  ******************************************************************/
 void Sys_Reset(void) {

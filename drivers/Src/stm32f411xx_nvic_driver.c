@@ -13,17 +13,15 @@
 
 /******************************************************************
  * 						FUNCTION DESCRIPTION
- * @fn						-
+ * @fn				- NVIC_EnableIRQ
  *
- * @brief					-
+ * @brief			-
  *
- * @param[in]				-
- * @param[in]				-
- * @param[in]				-
+ * @param IRQNumber	-
  *
- * @return					-
+ * @return			- none
  *
- * @Note					-
+ * @Note			- none
  *
  ******************************************************************/
 void NVIC_EnableIRQ(uint8_t IRQNumber)
@@ -50,24 +48,24 @@ void NVIC_EnableIRQ(uint8_t IRQNumber)
 
 /******************************************************************
  * 						FUNCTION DESCRIPTION
- * @fn						-	GPIO_IRQHandling
+ * @fn				-	NVIC_IRQPriorityConfig
  *
- * @brief					-
+ * @brief			-
  *
- * @param[in]				-
- * @param[in]				-
+ * @param IRQNumber	-
+ * @param IRQPrio	-
  *
- * @return					-
- * b
- * @Note					-
+ * @return			- none
+ *
+ * @Note			- none
  *
  ******************************************************************/
-void NVIC_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
+void NVIC_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPrio)
 {
 	//1. first find out the ipr register
 	uint8_t iprx = IRQNumber / 4;
 	uint8_t iprx_section = IRQNumber % 4;
 
 	uint8_t shift_amount = (8 * iprx_section) + (8 - NO_PR_BITS_IMPLEMENTED);	//only 4 bits are implemented, so there is need to shift by 4
-	*(NVIC_PR_BASE_ADDR + (iprx)) |= ( IRQPriority << shift_amount );
+	*(NVIC_PR_BASE_ADDR + (iprx)) |= ( IRQPrio << shift_amount );
 }

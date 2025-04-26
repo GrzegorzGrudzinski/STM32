@@ -5,43 +5,32 @@
  *      Author: grudz
  *
  *      TODO	add function descriptions
- *      TODO    repair rtos lib inc
  */
 #include "stm32f411xx.h"
 #include "stm32f411xx_systick_driver.h"
 
 /* For RTOS functions */
-#include "../Simple_RTOS/simplertos.h"
+#include "../drivers/Simple_RTOS/simplertos.h"
 
-/*******************************************************
- *
- *  					VARIABLES
- *
- ******************************************************/
-
-/* global variable for tick count  */
+/*
+ * global variable for tick count
+ */
 static uint32_t volatile l_tickCtr;
 
-/*******************************************************
- *
- *  					FUNCTIONS
- *
- ******************************************************/
 
-
-/******************************************************************
- * 						FUNCTION DESCRIPTION
- * @fn						-
+/***************************************************************
+ * 				FUNCTION DESCRIPTION
+ * @fn				- SysTick_Init
  *
- * @brief					- Initialize SysTick - set default values to registers
+ * @brief			- Initialize SysTick - set default values to registers
  *
- * @param[in] EnOrDis       -
+ * @param EnOrDis	- ENABLE / DISABLE macro
  *
- * @return					- NONE
+ * @return			-
  *
- * @Note					-
+ * @Note			-
  *
- ******************************************************************/
+ ***************************************************************/
 void SysTick_Init (uint8_t EnOrDis)
 {
 	//Bit 0 - Enable/Disable systick, Bit 1 TICKINT: SysTick exception request enable, Bit 2 CLKSOURCE: Clock source selection
@@ -56,16 +45,16 @@ void SysTick_Init (uint8_t EnOrDis)
 }
 
 /******************************************************************
- * 						FUNCTION DESCRIPTION
- * @fn						-
+ * 					FUNCTION DESCRIPTION
+ * @fn				- check_SysTick
  *
- * @brief					-
+ * @brief			-
  *
- * @param[in]				-
+ * @param			- none
  *
- * @return					-
+ * @return tickCtr	-
  *
- * @Note					-
+ * @Note			- none
  *
  ******************************************************************/
 uint32_t check_SysTick(void) {
@@ -79,16 +68,16 @@ uint32_t check_SysTick(void) {
 }
 
 /******************************************************************
- * 						FUNCTION DESCRIPTION
- * @fn						-
+ * 					FUNCTION DESCRIPTION
+ * @fn			- SysTick_Handler
  *
- * @brief					-
+ * @brief		-
  *
- * @param[in]				-
+ * @param		- none
  *
- * @return					-
+ * @return		- none
  *
- * @Note					- If using RTOS uncomment RTOS functions
+ * @Note		- If using RTOS uncomment RTOS functions
  *
  ******************************************************************/
 void SysTick_Handler(void) {
@@ -101,44 +90,45 @@ void SysTick_Handler(void) {
 }
 
 /******************************************************************
- * 						FUNCTION DESCRIPTION
- * @fn						-
+ * 					FUNCTION DESCRIPTION
+ * @fn				-
  *
- * @brief					-
+ * @brief			-
  *
- * @param[in] ticks			-
+ * @param ticks_ms	-
  *
- * @return					-
+ * @return			-
  *
- * @Note					-
+ * @Note			-
  *
  ******************************************************************/
-void simple_delay(uint32_t ticks) {
+void simple_delay(uint32_t ticks_ms) {
 	uint32_t start = check_SysTick();
-	while((check_SysTick() - start) < ticks)	{}
+	while((check_SysTick() - start) < ticks_ms)	{}
 }
 
 
 
 
 /******************************************************************
- * 						FUNCTION DESCRIPTION
- * @fn						-
+ * 					FUNCTION DESCRIPTION
+ * @fn					- Systick_Read_Countflag
  *
- * @brief					- Bit 16 of STK_CTRL returns 1 if timer counted to 0 since last time this was read.
+ * @brief				- Bit 16 of STK_CTRL returns 1 if timer
+ * 						  counted to 0 since the last time it was read.
  *
- * @param[in]				-
+ * @param				- none
  *
- * @return					-
+ * @return CntFlag_val	-
  *
- * @Note					-
+ * @Note				-
  *
  ******************************************************************/
 uint8_t Systick_Read_Countflag(void)
 {
-		uint8_t value;
-		value = (uint8_t) ((SysTick->STK_CTRL >> 16) & 0x00000001);
+		uint8_t CntFlag_val;
+		CntFlag_val = (uint8_t) ((SysTick->STK_CTRL >> 16) & 0x00000001);
 
-		return value;
+		return CntFlag_val;
 }
 
