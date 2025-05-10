@@ -12,18 +12,18 @@
 //Peripheral Clock setup
 
 /******************************************************************
- * 			FUNCTION DESCRIPTION
- * @fn			-	GPIO_PeriClockControl
+ * 				FUNCTION DESCRIPTION
+ * @fn				-	GPIO_PeriClockControl
  *
- * @brief		-	This function enables or disables
+ * @brief			-	This function enables or disables
  * 						peripheral clock for the given GPIO port
  *
  * @param pGPIOx	-	base address of the gpio peripheral
  * @param EnORDis	-	ENABLE / DISABLE macros
  *
- * @return		-	none
+ * @return			-	none
  *
- * @Note		-	none
+ * @Note			-	none
  *
  ******************************************************************/
 void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnORDis)
@@ -65,21 +65,24 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnORDis)
 //Init and De-init
 
 /******************************************************************
- * 			FUNCTION DESCRIPTION
- * @fn			-	GPIO_Init
+ * 					FUNCTION DESCRIPTION
+ * @fn					-	GPIO_Init
  *
- * @brief		- this funct. initializes the gpio
- * 			- sets up its speed, mode etc.
+ * @brief				- this funct. initializes the gpio
+ * 							- sets up its speed, mode etc.
  *
  * @param pGPIOHandle	- gpio_handle struct - basic settings of a gpio
  *
- * @return		- none
+ * @return				- none
  *
- * @Note		- none
+ * @Note				- none
  *
  ******************************************************************/
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
+	/* Enable the Clock */
+	GPIO_PeriClockControl(pGPIOHandle->pGPIOx, ENABLE);
+
 	uint32_t temp = 0;
 
 	//1. configure the mode of gpio pin
@@ -152,30 +155,27 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 	temp = 0;
 
 	//5. configure the alt. functionality
-	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode == GPIO_MODE_ALTFN)
+	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_ALTFN)
 	{
 		//configure the alt. funct. registers
 		uint8_t temp1 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber / 8;	//afrl or afrh (0 / 1)
-		uint8_t temp2 = pGPIOHandle->GPIO_PinConfig.GPIO_PinMode	% 4;	//for storing shift number (pin number)
-		pGPIOHandle->pGPIOx->AFR[temp1] &= ~(0xF << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);	//clearing
-		pGPIOHandle->pGPIOx->AFR[temp1] = (pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode << (4 * temp2));
+		uint8_t temp2 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 8;	//for storing shift number (pin number)
+		pGPIOHandle->pGPIOx->AFR[temp1] &= ~(0xF << (4 * temp2));	//clearing
+		pGPIOHandle->pGPIOx->AFR[temp1] |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode << (4 * temp2));
 	}
-
-	/* Enable the Clock */
-	GPIO_PeriClockControl(pGPIOHandle->pGPIOx, ENABLE);
 }
 
 /******************************************************************
- * 		FUNCTION DESCRIPTION
- * @fn			-	GPIO_DeInit
+ * 						FUNCTION DESCRIPTION
+ * @fn				-	GPIO_DeInit
  *
- * @brief		-	function that resets the gpio registers
+ * @brief			-	function that resets the gpio registers
  *
  * @param pGPIOx	-	base addr of the gpio
  *
- * @return		-	none
+ * @return			-	none
  *
- * @Note		-	none
+ * @Note			-	none
  *
  ******************************************************************/
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
@@ -198,16 +198,16 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
 
 /******************************************************************
  * 						FUNCTION DESCRIPTION
- * @fn			-	GPIO_ReadFromInputPin
+ * @fn				-	GPIO_ReadFromInputPin
  *
- * @brief		-  read the value a GPIO pin
+ * @brief			-  read the value a GPIO pin
  *
  * @param pGPIOx	- base addr of the gpio (gpio port)
- * @param PinNumber 	- pin number
+ * @param PinNumber - pin number
  *
  * @return PinValue	- pin value
  *
- * @Note		- none
+ * @Note			- none
  *
  ******************************************************************/
 uint8_t	GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
@@ -219,16 +219,16 @@ uint8_t	GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 }
 
 /******************************************************************
- * 		FUNCTION DESCRIPTION
- * @fn			-	GPIO_ReadFromInputPort
+ * 						FUNCTION DESCRIPTION
+ * @fn				-	GPIO_ReadFromInputPort
  *
- * @brief		-  read the input data register of a GPIO port
+ * @brief			-  read the input data register of a GPIO port
  *
  * @param pGPIOx	-  base addr of the gpio (gpio port)
  *
  * @return PortVal	-  gpio port value (IDR reg. content)
  *
- * @Note		- none
+ * @Note			- none
  *
  ******************************************************************/
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)	//16 pins
@@ -240,18 +240,18 @@ uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)	//16 pins
 }
 
 /******************************************************************
- * 		FUNCTION DESCRIPTION
- * @fn			-	GPIO_WriteToOutputPin
+ * 						FUNCTION DESCRIPTION
+ * @fn				-	GPIO_WriteToOutputPin
  *
- * @brief		-
+ * @brief			-
  *
  * @param pGPIOx	-
  * @param PinNumber	-
  * @param Value		-
  *
- * @return		-
+ * @return			-
  *
- * @Note		-
+ * @Note			-
  *
  ******************************************************************/
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t Value)
@@ -263,17 +263,17 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t Val
 }
 
 /******************************************************************
- * 		FUNCTION DESCRIPTION
- * @fn			-	GPIO_WriteToOutputPort
+ * 						FUNCTION DESCRIPTION
+ * @fn				-	GPIO_WriteToOutputPort
  *
- * @brief		-
+ * @brief			-
  *
  * @param pGPIOx	-
  * @param Value		-
  *
- * @return		-
+ * @return			-
  *
- * @Note		-
+ * @Note			-
  *
  ******************************************************************/
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint8_t Value)

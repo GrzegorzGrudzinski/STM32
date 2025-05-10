@@ -151,10 +151,16 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx);
  * Check the status of a given flag
  */
 uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint32_t FlagName);
+
+/*
+ *
+ */
+void SPI_PeriControl(SPI_RegDef_t *pSPIx, uint8_t EnORDis);
+
 /*
  *  Data Send and Recive
  */
-void SPI_SendData (SPI_RegDef_t *pSPIx, uint8_t* pTxBuff, uint32_t data_len);
+void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t* pTxBuff, uint32_t data_len);
 void SPI_ReceiveData (SPI_RegDef_t *pSPIx,  uint8_t* pRxBuff, uint32_t data_len);
 
 /*
