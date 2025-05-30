@@ -205,18 +205,21 @@ void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t* pTxBuff, uint32_t data_len) {
 		while( ( SPI_GetFlagStatus(pSPIx, SPI_TXE_FLAG) == FLAG_RESET) );
 		if ( pSPIx->CR1.DFF == SPI_DFF_16BITS) {
 			/* 16 bit DFF */
-			pSPIx->DR.reg |= *((uint16_t*) pTxBuff);
+			pSPIx->DR.reg = *((uint16_t*) pTxBuff);
 			data_len--;
 			data_len--;
-			(uint16_t*) pTxBuff++;
+//			(uint16_t*) pTxBuff++;
+			pTxBuff+=2;
 		}
 		else {
 			/* 8 bit DFF */
-			pSPIx->DR.DR = *(pTxBuff);
+			pSPIx->DR.reg = *(pTxBuff);
 			data_len--;
 			pTxBuff++;
 		}
 	}
+
+//	while (SPI_GetFlagStatus(pSPIx, SPI_BUSY_FLAG));
 }
 
 /******************************************************************
@@ -237,21 +240,30 @@ void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t* pTxBuff, uint32_t data_len) {
 void SPI_ReceiveData (SPI_RegDef_t *pSPIx,  uint8_t* pRxBuff, uint32_t data_len) {
 	while (data_len > 0) { //TODO - interrupt-based mechanism /* 1. Wait for the TXE Flag (Tx buff empty) + Interrupt */
 		/* (RXNE flag) - read */
-//		while ( ! pSPIx->SR.RXNE ) ; //TODO - interrupt-based mechanism
 		while( ( SPI_GetFlagStatus(pSPIx, SPI_RXNE_FLAG) == FLAG_RESET) );
 		if ( pSPIx->CR1.DFF == SPI_DFF_16BITS) {
 			/* 16 bit DFF */
-			*((uint16_t*) pRxBuff) |= pSPIx->DR.DR;
+			*((uint16_t*) pRxBuff) = pSPIx->DR.reg;
 			data_len--;
 			data_len--;
-			(uint16_t*) pRxBuff++;
+//			(uint16_t*) pRxBuff++;
+			pRxBuff+=2;
 		}
 		else {
 			/* 8 bit DFF */
-			*pRxBuff |= pSPIx->DR.DR;
+			*pRxBuff = pSPIx->DR.reg;
 			data_len--;
 			pRxBuff++;
 		}
-
 	}
+//	while (SPI_GetFlagStatus(pSPIx, SPI_BUSY_FLAG));
+}
+
+
+/*
+ *
+ */
+void SPI_SimpleSendData(uint8_t data) {
+	while (!(SPI2->SR.reg & (1 << 1))); // Wait TXE
+	SPI2->DR.reg = data;
 }

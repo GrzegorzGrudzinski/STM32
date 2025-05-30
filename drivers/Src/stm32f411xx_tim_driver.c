@@ -147,7 +147,7 @@ void TIM_Init(TIM_Handle_t *pTIMx) {
  *
  *******************************************************/
 void TIM_PWM_Start(TIM_Handle_t *pTIMx, uint8_t TIM_chan, uint16_t procent) {
-	pTIMx->pTIMx->CCR[TIM_chan].reg = PWM_WIDTH_PROCENT(procent);
+	pTIMx->pTIMx->CCR[TIM_chan].reg = TIM_pwm_width_procent(procent);
 }
 
 /********************************************************
@@ -167,3 +167,12 @@ void TIM_PWM_Start(TIM_Handle_t *pTIMx, uint8_t TIM_chan, uint16_t procent) {
 //	pTIMx->TIM_Config.TIM_CCRx_Values[TIM_chan] =  PWM_WIDTH_PROCENT(procent);
 //}
 
+
+
+
+/*
+ * % of pulse width converted to value for registers
+ */
+uint8_t TIM_pwm_width_procent (uint8_t x)	{
+	return  x * 10;
+}

@@ -19,7 +19,6 @@ static uint16_t volatile adcValue;
 
 
 
-
 /********************************************************************
  *																	*
  * 						FUNCTIONS									*
@@ -53,7 +52,7 @@ void ADC_Init(ADC_Handle_t *pADCx) {
 	pADCx->pADCx->CR2.reg = 0U;
 
 	//	ADC resolution
-	pADCx->pADCx->CR1.RES = ADC_RES_12_BIT;
+	pADCx->pADCx->CR1.RES = pADCx->ADC_Config_t.ADC_Resolution; //ADC_RES_12_BIT;
 
 	if (pADCx->ADC_Config_t.ADC_RegOrInj) { /* Injected	 */
 		uint8_t seq_length = 0;
@@ -70,24 +69,25 @@ void ADC_Init(ADC_Handle_t *pADCx) {
 		pADCx->pADCx->JSQR.JSQ3 = pADCx->ADC_Config_t.ADC_Conversion_Enable[2];
 		pADCx->pADCx->JSQR.JSQ4 = pADCx->ADC_Config_t.ADC_Conversion_Enable[3];
 
-		switch (pADCx->ADC_Config_t.ADC_Mode) {
-		case ADC_MODE_SINGLE_CONV: /* Single conversion mode */
-			break;
-		case ADC_MODE_DISCONT_CONV:
-			//	TODO
-			break;
-		case ADC_MODE_FAST_CONV:
-			//	TODO
-			break;
-		case ADC_MODE_SCAN:
-			//	TODO
-			break;
-		case ADC_MODE_AUTO_INJ:
-			//	TODO
-			break;
-		default:
-			break;
-		}
+//		switch (pADCx->ADC_Config_t.ADC_Mode) {
+//		case ADC_MODE_SINGLE_CONV: /* Single conversion mode */
+//			break;
+//		case ADC_MODE_DISCONT_CONV:
+//			//	TODO
+//			break;
+//		case ADC_MODE_FAST_CONV:
+//			//	TODO
+//			break;
+//		case ADC_MODE_SCAN:
+//			//	TODO
+//			break;
+//		case ADC_MODE_AUTO_INJ:
+//			//	TODO
+//			break;
+//		default:
+//			break;
+//		}
+
 		//ADC on
 		pADCx->pADCx->CR2.ADON = 1;
 		//ADC start conversion
@@ -124,9 +124,10 @@ void ADC_Init(ADC_Handle_t *pADCx) {
 		case ADC_MODE_SINGLE_CONV: /* Single conversion mode */
 			break;
 		case ADC_MODE_CONT_CONV: /* Continuous conversion mode */
-			pADCx->pADCx->CR1.EOCIE = 1;
+			pADCx->pADCx->CR1.EOCIE = 1;	/* Interrupts enable */
 			pADCx->pADCx->CR2.CONT = 1;
 
+			/* Configure the interrupts*/
 			NVIC_EnableIRQ(IRQ_NO_ADC);
 			NVIC_IRQPriorityConfig(IRQ_NO_ADC, ADC_IRQ_PRIO);
 			//set priority
@@ -135,22 +136,21 @@ void ADC_Init(ADC_Handle_t *pADCx) {
 			//This mode is started with the CONT bit at 1 either by external trigger or by setting the
 			//SWSTRT bit in the ADC_CR2 register (for regular channels only)
 			break;
-		case ADC_MODE_DISCONT_CONV:
-			//	TODO
-			break;
-		case ADC_MODE_FAST_CONV:
-			//	TODO
-			break;
-		case ADC_MODE_SCAN:
-			//	TODO
-			break;
+
+//		case ADC_MODE_DISCONT_CONV:
+//			//	TODO
+//			break;
+//		case ADC_MODE_FAST_CONV:
+//			//	TODO
+//			break;
+//		case ADC_MODE_SCAN:
+//			//	TODO
+//			break;
+
 		default:
 			break;
 		}
 
-		/*
-		 *
-		 */
 		//ADC on
 		pADCx->pADCx->CR2.ADON = 1;
 
@@ -186,14 +186,14 @@ uint16_t ADC_Read(ADC_Handle_t *pADCx, uint8_t range) {
 	switch (pADCx->ADC_Config_t.ADC_Mode) {
 	case ADC_MODE_SINGLE_CONV:
 		pADCx->pADCx->CR2.SWSTART = 1;
-		while(!(pADCx->pADCx->SR.EOC)){;}
+		while(!(pADCx->pADCx->SR.EOC)){;} //TODO - add interrupt handling
 		adcValue = ((pADCx->pADCx->DR.reg));
 
-		return ( (adcValue*range) / ADC_12BIT_MAX_VAL);
+		return ( (adcValue*range) / ADC_12BIT_MAX_VAL); //TODO - different res max val
 		break;
 	case ADC_MODE_CONT_CONV:
 		/*	adcValue = ((pADCx->pADCx->DR.reg));  */
-		return ( (adcValue*range) / ADC_12BIT_MAX_VAL);
+		return ( (adcValue*range) / ADC_12BIT_MAX_VAL); //TODO - different res max val
 		break;
 	default:
 		/*	error	*/

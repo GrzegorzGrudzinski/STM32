@@ -15,6 +15,7 @@ typedef struct {
 	uint8_t Pin_Number;
 	uint8_t ADC_RegOrInj;
 	uint8_t ADC_Mode;
+	uint8_t ADC_Resolution;
 	uint8_t ADC_Conversion_Enable[16];
 } ADC_Config_t;
 

@@ -83,20 +83,15 @@ typedef struct
 #define TIM_CHANNEL_4		3
 
 
-/*
- * % of pulse width converted to value for registers
- */
-#define PWM_WIDTH_PROCENT(x)	( x * 10 )
-
-
 /**************************************************************************************
  *						APIs supported by this driver
  *		For more information about the APIs check the function definitions in .c file
  **************************************************************************************/
 
 void TIM_PeriClockControl (TIM_RegDef_t *pTIMx, uint8_t EnORDis);
-void TIM_Init(TIM_Handle_t *pTIMx_Handle);
-void TIM_PWM_Start(TIM_Handle_t *pTIMx_Handle, uint8_t TIM_CHANNEL, uint16_t procent);
-void TIM_PWM_Set_Width(TIM_Handle_t * pTIMx_Handle, uint8_t TIM_CHANNEL, uint16_t procent);
+void TIM_Init (TIM_Handle_t *pTIMx_Handle);
+void TIM_PWM_Start (TIM_Handle_t *pTIMx_Handle, uint8_t TIM_CHANNEL, uint16_t procent);
+void TIM_PWM_Set_Width (TIM_Handle_t * pTIMx_Handle, uint8_t TIM_CHANNEL, uint16_t procent);
+uint8_t TIM_pwm_width_procent (uint8_t x);
 
 #endif /* INC_STM32F411XX_TIM_DRIVER_H_ */
