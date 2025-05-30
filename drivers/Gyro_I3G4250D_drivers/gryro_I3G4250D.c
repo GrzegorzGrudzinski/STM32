@@ -353,7 +353,7 @@ void Gyro_ReadAxis(int16_t *x, int16_t *y, int16_t *z)
     *z = (int16_t)((data[5] << 8) | data[4]);
 }
 
-
+/*
 int main(void)
 {
 	System_Init();
@@ -374,4 +374,4 @@ int main(void)
 
 	return 0;
 }
-
+*/
