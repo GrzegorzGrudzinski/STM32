@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 #include "simplertos.h"
-#include "error_handling.h"
+#include "../stm32f411xx_periph_drivers/Inc/error_handling.h"
 
 /*
  * Max amount of possible threads to run.
