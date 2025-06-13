@@ -12,7 +12,8 @@ Minimal RTOS (work in progress - currently supports only round-robin scheduler)
 
 ### external_devices_drivers
 Drivers for various external devices. 
- Curently supports drivers for:
+
+Curently supports:
 * L3G4250D gyroscope
 
 
