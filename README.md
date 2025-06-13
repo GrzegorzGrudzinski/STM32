@@ -16,5 +16,5 @@ Drivers for various external devices.
 * L3G4250D gyroscope
 
 
-#Note 
+# Note 
 This project is under active development. Some drivers and modules are not yet complete or fully functional.
