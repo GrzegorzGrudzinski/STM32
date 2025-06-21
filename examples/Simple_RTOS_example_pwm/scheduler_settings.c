@@ -27,9 +27,9 @@ void Periph_Init () {
 	GPIO_Handle_t GpioLed;
 
 	GpioLed.pGPIOx = GPIOD;
-	GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN; //GPIO_MODE_OUT;
-	GpioLed.GPIO_PinConfig.GPIO_PinAltFunMode = 2; //???
-	GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;	//open drain
+	GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+	GpioLed.GPIO_PinConfig.GPIO_PinAltFunMode = 2;
+	GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
 	GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
 	GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
 	GPIO_PeriClockControl(GPIOD, ENABLE);
