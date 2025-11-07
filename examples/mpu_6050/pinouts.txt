@@ -1,0 +1,33 @@
+
+
+# WYŚWIETLACZ
+PA1 // cyfra 1
+PA2 // cyfra 2
+PA3 // cyfra 3
+
+PA5 // wysw G
+PA6 // wysw C
+PA7 // wysw DF
+PB0 // WYSW D
+PB1 // WYSW E
+PB12 // WYSW B
+PB13 // WYSW F
+PB14 // WYSW A
+
+# LEDY
+PA8 // LED 1
+PA9 // LED 2
+PA10 // LED 3
+
+# ENKODER
+PB2 // ENKODER SW
+PB4 // ENKODER DT
+PB5 // ENKODER CLK
+
+# MAGNETOMETR
+PB6 // I2C1SDA
+PB7 // I2C1SCL
+
+# MPU 6050
+PB3 // I2C2SDA
+PB10 // I2C2SCL
