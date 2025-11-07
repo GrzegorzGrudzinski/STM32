@@ -1,2 +1,4 @@
 mcu*.*
 Makefile
+!.git*
+.*
